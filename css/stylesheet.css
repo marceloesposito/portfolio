@@ -1,0 +1,54 @@
+@import url(./clash-display.css);
+@import url(./satoshi.css);
+
+body {
+    margin: 0;
+    height: 100%;
+    background-color: #00030F;
+    background-image: url("../images/background_pattern.png");
+    background-repeat: repeat-y;
+    background-size: cover;
+}
+p{
+    color: white;
+    font-family: 'Satoshi-Regular';
+    font-size: 1.3em;
+}
+.flex-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 40px;
+}
+
+.headLine{
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+}
+.orange{
+    color: #FF8400;
+}
+.blue{
+    color: #34A6D4;
+}
+.titleText{
+    color: whitesmoke;
+    font-size: 80px;
+    font-family: 'ClashDisplay-Bold',Verdana;
+}
+
+.subtitleText{
+    color: whitesmoke;
+    font-size: 60px;
+    font-family: 'ClashDisplay-Semibold', Verdana;
+}
+
+.subtitle2Text{
+    color: whitesmoke;
+    font-size: 40px;
+    font-family: 'Satoshi-Regular', Cambria;
+}
+
+
+
