@@ -6,8 +6,8 @@ body {
     height: 100%;
     background-color: #00030F;
     background-image: url("../images/background_pattern.png");
-    background-repeat: repeat-y;
-    background-size: cover;
+    background-repeat: repeat;
+    background-size: contain;
 }
 p{
     color: white;
@@ -18,7 +18,8 @@ p{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-right: 40px;
+    margin-right: 50px;
+    margin-top: 35px;
 }
 
 .headLine{
@@ -27,13 +28,17 @@ p{
     text-align: right;
     vertical-align: middle;
     align-content: center;
+    margin-top: -18em;
 }
+
+
 .orange{
     color: #FF8400;
 }
 .blue{
     color: #34A6D4;
 }
+
 .titleText{
     color: whitesmoke;
     font-size: 5em;
@@ -44,15 +49,32 @@ p{
 .subtitleText{
     color: whitesmoke;
     font-size: 3.8em;
-    letter-spacing: 2.34px;
-    font-family: 'ClashDisplay-Semibold', Verdana;
+    font-family: 'ClashDisplay-Bold', Verdana;
     margin-bottom: -0.5em;
+    white-space: nowrap;
 }
 
 .subtitle2Text{
     color: whitesmoke;
     font-size: 2em;
-    letter-spacing: 1.44px;
-    padding-top: 1em;
-    font-family: 'Satoshi-Regular', Cambria;
+    padding-top: 0.7em;
+    font-family: 'Satoshi-Bold', Cambria;
 }
+
+.phoneFrame{
+    padding-top: 5em;
+    height: 60em;
+}
+
+.suggestionText{
+    opacity: 1;
+
+}
+
+.material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 200,
+    'opsz' 48
+  }
