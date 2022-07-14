@@ -25,6 +25,8 @@ p{
     display: flex;
     flex-direction: column;
     text-align: right;
+    vertical-align: middle;
+    align-content: center;
 }
 .orange{
     color: #FF8400;
@@ -34,21 +36,23 @@ p{
 }
 .titleText{
     color: whitesmoke;
-    font-size: 80px;
+    font-size: 5em;
     font-family: 'ClashDisplay-Bold',Verdana;
+    margin-bottom: -0.7em;
 }
 
 .subtitleText{
     color: whitesmoke;
-    font-size: 60px;
+    font-size: 3.8em;
+    letter-spacing: 2.34px;
     font-family: 'ClashDisplay-Semibold', Verdana;
+    margin-bottom: -0.5em;
 }
 
 .subtitle2Text{
     color: whitesmoke;
-    font-size: 40px;
+    font-size: 2em;
+    letter-spacing: 1.44px;
+    padding-top: 1em;
     font-family: 'Satoshi-Regular', Cambria;
 }
-
-
-
