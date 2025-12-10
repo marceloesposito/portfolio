@@ -1,21 +1,77 @@
 <!DOCTYPE html>
 <!-- HEADING -->
 <head>
-    <link rel="stylesheet" href="css/stylesheet.css">
-    <title>
-        Movies & Grill Case Study - Marcelo Esposito
-    </title>
+    <link rel="stylesheet" href="style.css">
+    <title>Portfolio</title>
+    <meta charset="utf-8">
 </head>
 
 <!-- BODY -->
 
-<body> 
+<body>
+    <div class="control-box color-controls">
+        <button id="swapColors" class="color-button">Swap background/foreground</button>
+        <div class="color-preview" id="colorPreview">
+            <span class="color-square fg" aria-hidden="true"></span>
+            <span class="color-hex" id="fgHex">#58c2ff</span>
+            <span class="color-square bg" aria-hidden="true"></span>
+            <span class="color-hex" id="bgHex">#050712</span>
+        </div>
+        <button id="randomizeColors" class="color-button">Randomize colors</button>
+    </div>
+
+    <div class="control-box font-controls">
+        <div class="font-box" id="fontBox">
+            <button class="font-toggle" data-font="serif" id="fontSerif">Serif</button>
+            <button class="font-toggle" data-font="sans" id="fontSans">Sans</button>
+            <button class="font-toggle" data-font="mono" id="fontMono">Mono</button>
+        </div>
+    </div>
+
+        <!-- Search field -->
+        <div class="search-wrap">
+            <input id="siteSearch" class="search-input" type="search" placeholder="type here to search">
+        </div>
+        <button id="searchBtn" class="search-btn" type="button">Search</button>
+
+    <div>mbmd</div>
+    <div class="box">
+        Your text here
+    </div>
     
-<div style="font-size: 80px;">
-        <img src = "images/phone_frame.png" width = "80px">
-        <span style = 'text-align: right;'> Movies & Grill Case Study</span>
-</div>
+        <!-- Text input (native caret used) -->
+        <div class="input-wrap">
+                <input id="demoInput" class="text-input" type="text" placeholder="Type here...">
+        </div>
 
-</body>
+        <!-- Square radio buttons (custom box + checkmark) -->
+        <form class="radio-group">
+            <label><input type="radio" name="choice" class="square-radio" checked><span class="radio-box" aria-hidden="true"></span> Option 1</label>
+            <label><input type="radio" name="choice" class="square-radio"><span class="radio-box" aria-hidden="true"></span> Option 2</label>
+            <label><input type="radio" name="choice" class="square-radio"><span class="radio-box" aria-hidden="true"></span> Option 3</label>
+        </form>
 
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://marceloesposito.github.io/portfolio">Marcelo's Design Portfolio</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://behance.net/marcelosposito2">Marcelo Esposito</a> is licensed under <a href="http://creativecommons.org/licenses/by-nd/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-ND 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nd.svg?ref=chooser-v1"></a></p>
+        <!-- Two versions of the selectable list, side-by-side -->
+        <div class="lists-row">
+            <div class="list-column">
+                <h3>Multi-select (click to toggle multiple)</h3>
+                <ul class="selectable-list multi-select">
+                    <li><button class="selectable">Selectable Item 1</button></li>
+                    <li><button class="selectable">Selectable Item 2</button></li>
+                    <li><button class="selectable">Selectable Item 3</button></li>
+                    <li><button class="selectable">Selectable Item 4</button></li>
+                </ul>
+            </div>
+            <div class="list-column">
+                <h3>Single-select (radio style)</h3>
+                <ul class="selectable-list single-select">
+                    <li><button class="selectable">Selectable Item A</button></li>
+                    <li><button class="selectable">Selectable Item B</button></li>
+                    <li><button class="selectable">Selectable Item C</button></li>
+                    <li><button class="selectable">Selectable Item D</button></li>
+                </ul>
+            </div>
+        </div>
+<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://marceloesposito.github.io/portfolio">made</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://behance.net/marcelosposito2">Marcelo Esposito</a> is licensed under <a href="http://creativecommons.org/licenses/by-nd/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-ND 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nd.svg?ref=chooser-v1"></a></p>
+
+<script src="js/swapColors.js"></script>

@@ -1,0 +1,403 @@
+/* Reset and Base Styles */
+:root {
+    --bg-color: #050712; /* background color */
+    --fg-color: #58c2ff; /* foreground color (text, borders, shadows) */
+    --transition-duration: 200ms;
+    --transition-timing: ease-in-out;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    /* 16pt == 21.333px at 96dpi; make 1rem equal to 16pt */
+    font-size: 21.333px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Times New Roman', Times, serif;
+    line-height: 1.6;
+    color: var(--fg-color);
+    background-color: var(--bg-color);
+}
+
+/* Pagewide margin */
+body { margin: 2em; }
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Images */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+    button {
+        font-family: inherit;
+        font-size: 1rem; /* match other text */
+        color: var(--fg-color);
+        background: transparent;
+        border: 1px solid var(--fg-color);
+        padding: 6px 10px;
+        margin: 6px;
+        box-shadow: 4px 4px 0 var(--fg-color);
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    button:active { transform: translateY(1px); }
+
+    /* Search button tweak: ensure vertical centering and matching text size */
+    .search-btn {
+        font-size: 1rem;
+        line-height: 1;
+        padding: 14px 16px;
+    }
+
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--fg-color);
+    box-shadow: 0 0 0 3px rgba(88,194,255,0.12);
+}
+
+/* Utilities */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.search-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.search-input {
+    width: 420px;
+    padding: 14px 16px; /* normal padding, button is outside */
+    font-size: 1rem;
+    color: var(--fg-color);
+    background: transparent;
+    border: 1px solid var(--fg-color);
+    outline: none;
+    border-radius: 0;
+    box-shadow: 4px 4px 0 0 var(--fg-color);
+}
+
+.search-input:focus { box-shadow: 4px 4px 0 0 var(--fg-color); }
+
+/* Search button placed to the right of the input */
+.search-btn {
+    background: transparent;
+    color: var(--fg-color);
+    padding: 14px 16px;
+    cursor: pointer;
+    text-decoration: underline;
+    box-shadow: 4px 4px 0 var(--fg-color);
+    font-size: 1rem;
+    align-self: center;
+    border: 1px solid var(--fg-color); /* add stroke */
+}
+
+.search-btn:active { transform: translateY(1px); }
+
+.text-box {
+    display: block;
+    width: 100%;
+    max-width: 700px;
+
+    padding: 16px 20px;
+    font-size: 1rem;
+    color: var(--fg-color);
+    background: transparent;
+
+    border: 2px solid var(--fg-color);        /* main border */
+    outline: none;
+
+    /* faux shadow */
+    box-shadow: 4px 4px 0 0 var(--fg-color);
+}
+
+/* per input/textarea togli il bordo nativo del browser, se serve */
+input.text-box,
+textarea.text-box {
+    border-radius: 0;
+    box-sizing: border-box;
+}
+
+/* Generic box class used by index.html */
+.box {
+    border: 1px solid var(--fg-color);
+    padding: 10px;
+    margin: 10px;
+    background-color: transparent;
+    box-shadow: 4px 4px 0 var(--fg-color);
+    color: var(--fg-color);
+}
+
+/* Font selection box placed near controls */
+.font-box {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    margin-left: 8px;
+    padding: 0; /* remove bounding visual */
+    border: none;
+    box-shadow: none;
+    background: transparent;
+}
+
+.font-box .font-toggle {
+    background: transparent;
+    border: none; /* remove bounding box */
+    color: var(--fg-color);
+    padding: 6px 8px;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 1rem;
+    box-shadow: none; /* remove shadow */
+}
+
+.font-box .font-toggle.selected {
+    background: var(--fg-color);
+    color: var(--bg-color);
+}
+
+/* Remove any bold styling across the page */
+strong, b, h1, h2, h3, h4, h5, h6 { font-weight: normal !important; }
+* { font-weight: normal; }
+
+/* Button for swapping colors */
+button#swapColors {
+    background: transparent;
+    color: var(--fg-color);
+    padding: 6px 10px;
+    margin: 10px;
+    cursor: pointer;
+    border: none; /* remove bounding box for color controls */
+    box-shadow: none;
+}
+
+button#swapColors:focus { outline: none; }
+
+/* color-button helper (applies to swap/randomize color controls) */
+.color-button, #randomizeColors {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    text-decoration: underline;
+    color: var(--fg-color);
+}
+
+/* Animate color / background / border / shadow changes triggered by variable swaps */
+:root, body, body * {
+    transition: color var(--transition-duration) var(--transition-timing),
+                background-color var(--transition-duration) var(--transition-timing),
+                border-color var(--transition-duration) var(--transition-timing),
+                box-shadow var(--transition-duration) var(--transition-timing);
+}
+
+/* Control box used to group related controls (color, font) */
+.control-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--fg-color);
+    box-shadow: 4px 4px 0 var(--fg-color);
+    background: transparent;
+    margin-right: 12px;
+}
+
+.control-box.color-controls { margin-bottom: 12px; }
+.control-box.font-controls { margin-bottom: 12px; }
+
+/* Color preview small squares + hex labels */
+.color-preview {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 8px;
+}
+
+.color-square {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.color-square.fg {
+    background: var(--fg-color);
+    border: 2px solid var(--bg-color);
+}
+
+.color-square.bg {
+    background: var(--bg-color);
+    border: 2px solid var(--fg-color);
+}
+
+.color-hex {
+    color: var(--fg-color);
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+/* Text input + custom caret */
+.input-wrap {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+}
+
+.text-input {
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 10px 12px;
+    color: var(--fg-color);
+    background: transparent;
+    border: 1px solid var(--fg-color);
+    outline: none;
+    caret-color: var(--fg-color);
+    border-radius: 0; /* remove rounding */
+}
+
+
+.text-input:focus { box-shadow: 4px 4px 0 0 var(--fg-color); }
+
+::placeholder {
+    color: var(--fg-color);
+    opacity: 1;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+/* Square radio buttons */
+
+.radio-group label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 12px;
+    font-family: inherit;
+    position: relative;
+}
+
+.radio-group input.square-radio {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+}
+
+.radio-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--fg-color);
+    background: transparent;
+    box-sizing: border-box;
+}
+
+.radio-box::after {
+    content: '';
+    display: block;
+    color: var(--bg-color);
+}
+
+.radio-group input.square-radio:checked + .radio-box {
+    background: var(--fg-color);
+}
+
+.radio-group input.square-radio:checked + .radio-box::after {
+    content: '\2713';
+    font-size: 12px;
+    color: var(--bg-color);
+}
+
+/* Selectable list styling */
+.selectable-list {
+    list-style: none;
+    margin: 12px 0;
+    padding: 0;
+}
+
+.selectable-list li {
+    margin: 6px 0;
+}
+
+.selectable-list .selectable {
+    background: transparent;
+    border: none;
+    color: var(--fg-color);
+    text-decoration: underline;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.12em 0.35em; /* adjust box to text size */
+    cursor: pointer;
+    box-shadow: none;
+}
+
+.selectable-list .selectable.selected {
+    background: var(--fg-color);
+    color: var(--bg-color);
+    padding: 0.12em 0.35em;
+    display: inline-block;
+}
+
+/* Layout for lists side-by-side */
+.lists-row {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.list-column {
+    flex: 1 1 0;
+}
+
+/* Style all buttons to match design */
+
+/* Ensure controls inherit the page font */
+input, textarea, select, button { font-family: inherit; }
+
+button {
+    color: var(--fg-color);
+    background: transparent;
+    border: 1px solid var(--fg-color);
+    padding: 6px 10px;
+    margin: 6px;
+    box-shadow: 4px 4px 0 var(--fg-color);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+button:active { transform: translateY(1px); }
+
