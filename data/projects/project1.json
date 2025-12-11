@@ -1,4 +1,6 @@
 {
-  "title": "Project 1",
-  "content": "<p>Project 1 — Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>"
+  "title_en": "Project 1",
+  "title_it": "Progetto 1",
+  "content_en": "<p>This is my first major project. It demonstrates my ability to create engaging web experiences with clean design and robust functionality. The project involved extensive research and iterative development.</p>",
+  "content_it": "<p>Questo è il mio primo progetto importante. Dimostra la mia capacità di creare esperienze web coinvolgenti con un design pulito e una funzionalità robusta. Il progetto ha coinvolto ricerca estensiva e sviluppo iterativo.</p>"
 }

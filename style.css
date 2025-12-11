@@ -4,7 +4,9 @@
     --fg-color: #58c2ff; /* foreground color (text, borders, shadows) */
     --transition-duration: 200ms;
     --transition-timing: ease-in-out;
-    --box-pad: 8px; /* uniform padding for boxed components */
+    --box-pad: 10px; /* uniform padding for boxed components */
+    --box-gap: 12px; /* uniform margin between boxes */
+    --box-min-height: 3.5rem; /* minimum vertical size for boxed controls */
     --ui-pad-vert: 6px; /* vertical padding for controls */
     --ui-pad-horiz: 8px; /* horizontal padding for controls */
     --toc-height: 18rem; /* fixed height for table of contents box */
@@ -102,7 +104,8 @@ input:focus, textarea:focus, select:focus {
 
     .search-input {
     width: 20em;
-    padding: var(--ui-pad-vert) var(--ui-pad-horiz); /* uniform control padding */
+        padding: var(--box-pad);
+        min-height: var(--box-min-height);
     font-size: 1rem;
     color: var(--fg-color);
     background: transparent;
@@ -118,13 +121,23 @@ input:focus, textarea:focus, select:focus {
 .search-btn {
     background: transparent;
     color: var(--fg-color);
-    padding: 14px 16px;
+    padding: var(--box-pad);
+    min-height: var(--box-min-height);
     cursor: pointer;
     text-decoration: underline;
     box-shadow: 4px 4px 0 var(--fg-color);
     font-size: 1rem;
     align-self: center;
     border: 1px solid var(--fg-color); /* add stroke */
+}
+
+/* Make the search input and button visually boxless inside the outer control-box */
+.search-controls .search-input,
+.search-controls .search-btn {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    text-decoration: underline; /* keep link-like look */
 }
 
 .search-btn:active { transform: translateY(1px); }
@@ -158,10 +171,11 @@ textarea.text-box {
 .box {
     border: 1px solid var(--fg-color);
     padding: var(--box-pad);
-    margin: 10px;
+    margin: var(--box-gap);
     background-color: transparent;
     box-shadow: 4px 4px 0 var(--fg-color);
     color: var(--fg-color);
+    min-height: var(--box-min-height);
 }
 
 /* Font selection box placed near controls */
@@ -170,7 +184,7 @@ textarea.text-box {
     gap: 6px;
     align-items: center;
     margin-left: 8px;
-    padding: 0; /* remove bounding visual */
+    padding: 0; /* keep inner tight */
     border: none;
     box-shadow: none;
     background: transparent;
@@ -188,6 +202,34 @@ textarea.text-box {
 }
 
 .font-box .font-toggle.selected {
+    background: var(--fg-color);
+    color: var(--bg-color);
+}
+
+/* Language toggle box (similar to font-box) */
+.lang-box {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    margin-left: 8px;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+}
+
+.lang-box .lang-toggle {
+    background: transparent;
+    border: none;
+    color: var(--fg-color);
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 1rem;
+    box-shadow: none;
+}
+
+.lang-box .lang-toggle.selected {
     background: var(--fg-color);
     color: var(--bg-color);
 }
@@ -232,12 +274,13 @@ button#swapColors:focus { outline: none; }
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 0 var(--box-pad); /* remove vertical padding, keep horizontal */
+    padding: var(--box-pad);
     border: 1px solid var(--fg-color);
     box-shadow: 4px 4px 0 var(--fg-color);
     background: transparent;
-    margin-right: 12px;
+    margin: var(--box-gap);
     position: relative;
+    min-height: var(--box-min-height);
 }
 
 /* Small label shown just outside the top-left of any box that has a data-label */
@@ -257,6 +300,9 @@ button#swapColors:focus { outline: none; }
 
 .control-box.color-controls { margin-bottom: 12px; }
 .control-box.font-controls { margin-bottom: 12px; }
+
+/* Ensure consistent vertical alignment for boxed elements */
+.control-box, .player-box, .box { align-items: center; }
 
 /* Color preview small squares + hex labels */
 .color-preview {
@@ -356,10 +402,11 @@ button#swapColors:focus { outline: none; }
     display: flex;
     gap: 12px;
     align-items: center;
-    padding: 1rem 1rem 0.5rem 1rem; /* extra top padding requested */
+    padding: var(--box-pad);
     box-shadow: 4px 4px 0 var(--fg-color);
     border: 1px solid var(--fg-color);
     background: transparent;
+    min-height: var(--box-min-height);
 }
 .player-box #nowPlaying { color: var(--fg-color); font-size: 0.9rem; }
 .player-box button { padding: 6px 10px; border: none; box-shadow: none; background: transparent; }
@@ -376,7 +423,8 @@ input[type=range] {
 /* WebKit track */
 input[type=range]::-webkit-slider-runnable-track {
     height: 4px;
-    background: rgba(88,194,255,0.12); /* subtle track */
+    background: var(--fg-color); /* make track visible in foreground color */
+    opacity: 1;
     border-radius: 0; /* remove rounding */
 }
 /* WebKit thumb */
@@ -389,10 +437,11 @@ input[type=range]::-webkit-slider-thumb {
     border: 1px solid var(--bg-color);
     border-radius: 0; /* remove rounding */
     margin-top: -5px; /* center the thumb vertically */
+    box-shadow: 0 0 0 2px var(--bg-color); /* background-color stroke around handle */
 }
 /* Firefox styling */
-input[type=range]::-moz-range-track { height: 4px; background: rgba(88,194,255,0.12); border-radius: 0; }
-input[type=range]::-moz-range-thumb { width: 10px; height: 14px; background: var(--fg-color); border: 1px solid var(--bg-color); border-radius: 0; }
+input[type=range]::-moz-range-track { height: 4px; background: var(--fg-color); opacity: 1; border-radius: 0; }
+input[type=range]::-moz-range-thumb { width: 10px; height: 14px; background: var(--fg-color); border: 1px solid var(--bg-color); border-radius: 0; box-shadow: 0 0 0 2px var(--bg-color); }
 input[type=range]:focus { outline: none; }
 
 /* small responsive tweaks */
@@ -528,6 +577,31 @@ input[type=range]:focus { outline: none; }
     color: var(--bg-color);
     padding: 0.12em 0.35em;
     display: inline-block;
+}
+
+/* Search results styling */
+.search-results { display: flex; flex-direction: column; gap: 0.5rem; }
+.search-result {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px;
+    border: 1px solid rgba(255,255,255,0.03);
+    background: transparent;
+}
+.search-result .excerpt { color: var(--fg-color); }
+.search-result .result-source {
+    color: var(--fg-color);
+    opacity: 0.7;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    margin-left: 12px;
+}
+.match {
+    background: var(--fg-color);
+    color: var(--bg-color);
+    padding: 0 0.15rem;
 }
 
 /* Layout for lists side-by-side */

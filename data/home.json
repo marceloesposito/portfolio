@@ -1,4 +1,6 @@
 {
-  "title": "Home",
-  "content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>"
+  "title_en": "Home",
+  "title_it": "Home",
+  "content_en": "<p>Welcome to my portfolio. This page showcases my work and projects across various disciplines. Feel free to explore the navigation menu to discover more about my experience and skills.</p>",
+  "content_it": "<p>Benvenuto nel mio portfolio. Questa pagina presenta i miei lavori e progetti in varie discipline. Sentiti libero di esplorare il menu di navigazione per scoprire di più sulla mia esperienza e competenze.</p>"
 }

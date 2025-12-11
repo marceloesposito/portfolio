@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const swapBtn = document.getElementById('swapColors');
   const randomBtn = document.getElementById('randomizeColors');
 
+  // Current language preference (default: English)
+  let currentLanguage = 'en';
+
   // Utilities: color conversions and WCAG contrast
   function hexToRgb(hex) {
     hex = hex.replace('#', '');
@@ -159,6 +162,15 @@ document.addEventListener('DOMContentLoaded', function() {
   // ---------- Site pages navigator: fetch JSON pages and render ----------
   const contentBody = document.getElementById('contentBody');
 
+  // Files to include in the site search. Update this list when adding/removing content files.
+  const SEARCH_FILES = [
+    'data/home.json',
+    'data/projects/project1.json',
+    'data/projects/project2.json',
+    'data/blog/post1.json',
+    'data/rss/feed.json'
+  ];
+
   // Toggle nested section lists
   const sectionToggles = Array.from(document.querySelectorAll('.section-toggle'));
   sectionToggles.forEach(btn => {
@@ -179,7 +191,13 @@ document.addEventListener('DOMContentLoaded', function() {
       const res = await fetch(filePath);
       if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
       const json = await res.json();
-      contentBody.innerHTML = (json.title ? '<h2>' + json.title + '</h2>' : '') + (json.content || '');
+      // Get title and content in the current language
+      const lang = currentLanguage;
+      const titleKey = 'title_' + lang;
+      const contentKey = 'content_' + lang;
+      const title = json[titleKey] || json.title || '';
+      const content = json[contentKey] || json.content || '';
+      contentBody.innerHTML = (title ? '<h2>' + title + '</h2>' : '') + content;
     } catch (err) {
       contentBody.innerHTML = '<p>Unable to load content.</p><pre>' + (err && err.message) + '</pre>';
     }
@@ -249,4 +267,132 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // load initial track info
   loadTrack(0);
+
+  // ---------- Language toggle behavior ----------
+  const langButtons = Array.from(document.querySelectorAll('.lang-toggle'));
+
+  function changeLanguage(lang) {
+    currentLanguage = lang;
+    // Update toggle button states
+    langButtons.forEach(b => b.classList.toggle('selected', b.dataset.lang === lang));
+    // Reload currently selected nav item content in the new language
+    const selectedNavItem = document.querySelector('.nav-item.selected');
+    if (selectedNavItem) {
+      const file = selectedNavItem.dataset.file;
+      if (file) loadAndRender(file);
+    }
+  }
+
+  langButtons.forEach(btn => {
+    btn.addEventListener('click', () => changeLanguage(btn.dataset.lang));
+  });
+
+  // Default to English
+  changeLanguage('en');
+
+  // ---------- Site search (scans JSON files listed in SEARCH_FILES) ----------
+  const searchInput = document.getElementById('siteSearch');
+  const searchBtnEl = document.getElementById('searchBtn');
+
+  function stripHtml(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html || '';
+    return tmp.textContent || tmp.innerText || '';
+  }
+
+  // find sentence containing index; split by punctuation
+  function extractSentenceAround(text, index, maxLen = 200) {
+    // split into sentences
+    const sentences = text.split(/(?<=[\.\!\?])\s+/);
+    let acc = 0;
+    for (let s of sentences) {
+      const start = acc;
+      const end = acc + s.length;
+      if (index >= start && index <= end) {
+        s = s.trim();
+        if (s.length <= maxLen) return s;
+        // truncate around the match roughly in middle
+        return s.slice(0, maxLen - 1) + '…';
+      }
+      acc = end + 1; // account for split
+    }
+    // Fallback: return a shortened chunk around index
+    const start = Math.max(0, index - Math.floor(maxLen / 2));
+    return (start > 0 ? '…' : '') + text.substr(start, maxLen) + (start + maxLen < text.length ? '…' : '');
+  }
+
+  function highlightMatches(text, terms) {
+    if (!terms || !terms.length) return text;
+    // escape regex
+    const escaped = terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    const re = new RegExp('(' + escaped.join('|') + ')', 'gi');
+    return text.replace(re, '<span class="match">$1</span>');
+  }
+
+  async function runSearch(query) {
+    if (!contentBody) return;
+    const q = (query || '').trim();
+    if (!q) {
+      contentBody.innerHTML = '<p>Please enter a search term.</p>';
+      return;
+    }
+    const terms = q.split(/\s+/).filter(Boolean);
+    const results = [];
+    const lang = currentLanguage;
+    const contentKey = 'content_' + lang;
+
+    // fetch each JSON file and search
+    await Promise.all(SEARCH_FILES.map(async (path) => {
+      try {
+        const res = await fetch(path);
+        if (!res.ok) return;
+        const json = await res.json();
+        const title = json['title_' + lang] || json.title || '';
+        const raw = (json[contentKey] || json.content || '') + ' ' + title;
+        const text = stripHtml(raw);
+        const lower = text.toLowerCase();
+        // find all matches for any term
+        for (let term of terms) {
+          const li = lower.indexOf(term.toLowerCase());
+          if (li !== -1) {
+            const sentence = extractSentenceAround(text, li, 220);
+            const highlighted = highlightMatches(sentence, terms);
+            results.push({ excerpt: highlighted, source: path });
+            break; // show only one match per file for brevity
+          }
+        }
+      } catch (e) {
+        // ignore file fetch errors
+      }
+    }));
+
+    if (!results.length) {
+      contentBody.innerHTML = '<p>No results.</p>';
+      return;
+    }
+
+    // Render results
+    const wrap = document.createElement('div');
+    wrap.className = 'search-results';
+    results.forEach(r => {
+      const row = document.createElement('div');
+      row.className = 'search-result';
+      const e = document.createElement('div');
+      e.className = 'excerpt';
+      e.innerHTML = r.excerpt;
+      const src = document.createElement('div');
+      src.className = 'result-source';
+      src.textContent = r.source.replace(/^data\//, '');
+      row.appendChild(e);
+      row.appendChild(src);
+      wrap.appendChild(row);
+    });
+    contentBody.innerHTML = '';
+    contentBody.appendChild(wrap);
+  }
+
+  if (searchBtnEl) searchBtnEl.addEventListener('click', () => runSearch(searchInput.value));
+  if (searchInput) searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); runSearch(searchInput.value); }
+  });
 });

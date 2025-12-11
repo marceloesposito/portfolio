@@ -1,4 +1,6 @@
 {
-  "title": "Project 2",
-  "content": "<p>Project 2 — Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.</p>"
+  "title_en": "Project 2",
+  "title_it": "Progetto 2",
+  "content_en": "<p>My second project focuses on innovative solutions and user-centered design. Through careful planning and attention to detail, I created a seamless user experience that meets the needs of modern audiences.</p>",
+  "content_it": "<p>Il mio secondo progetto si concentra su soluzioni innovative e design incentrato sull'utente. Attraverso una pianificazione attenta e l'attenzione ai dettagli, ho creato un'esperienza utente fluida che soddisfa le esigenze dei pubblici moderni.</p>"
 }

@@ -2,7 +2,7 @@
 <!-- HEADING -->
 <head>
     <link rel="stylesheet" href="style.css">
-    <title>Portfolio</title>
+    <title>mbmd portfolio</title>
     <meta charset="utf-8">
 </head>
 
@@ -10,37 +10,46 @@
 
 <body>
     <div class="top-row" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-        <div class="control-box color-controls" data-label="Colors">
-            <button id="swapColors" class="color-button">Swap colors</button>
+        <div class="control-box color-controls" data-label="colors">
+            <button id="swapColors" class="color-button" data-i18n="swapColors">Swap colors</button>
             <div class="color-preview" id="colorPreview">
                 <span class="color-square fg" aria-hidden="true"></span>
                 <span class="color-hex" id="fgHex">#58c2ff</span>
                 <span class="color-square bg" aria-hidden="true"></span>
                 <span class="color-hex" id="bgHex">#050712</span>
             </div>
-            <button id="randomizeColors" class="color-button">Randomize colors</button>
+            <button id="randomizeColors" class="color-button" data-i18n="randomizeColors">Randomize colors</button>
         </div>
 
-        <div class="control-box font-controls" data-label="Fonts">
+        <div class="control-box font-controls" data-label="fonts">
             <div class="font-box" id="fontBox">
                 <button class="font-toggle" data-font="serif" id="fontSerif">Serif</button>
                 <button class="font-toggle" data-font="sans" id="fontSans">Sans</button>
                 <button class="font-toggle" data-font="mono" id="fontMono">Mono</button>
             </div>
         </div>
+
+        <div class="control-box lang-controls" data-label="language">
+            <div class="lang-box" id="langBox">
+                <button class="lang-toggle selected" data-lang="en" id="langEn" data-i18n="english">English</button>
+                <button class="lang-toggle" data-lang="it" id="langIt" data-i18n="italian">Italian</button>
+            </div>
+        </div>
     </div>
 
     <div class="search-row" style="display:flex;gap:8px;align-items:center;margin-top:8px;margin-bottom:12px;">
-        <div class="search-wrap">
-            <input id="siteSearch" class="search-input" type="search" placeholder="type here to search">
+        <div class="control-box search-controls" style="display:inline-flex;align-items:center;" id="searchBox" data-label="search">
+            <div class="search-wrap">
+                <input id="siteSearch" class="search-input" type="search" placeholder="type here to search">
+            </div>
+            <button id="searchBtn" class="search-btn" type="button">Search</button>
         </div>
-        <button id="searchBtn" class="search-btn" type="button">Search</button>
     </div>
 
     <!-- Site navigator + content area: left = pages list, right = content viewer -->
     <div class="site-view" style="margin-top:12px;">
-        <div class="nav-and-content" style="display:flex;gap:12px;align-items:stretch;">
-            <div class="nav-box control-box" id="navBox" style="min-width:200px;" data-label="Pages">
+            <div class="nav-and-content" style="display:flex;gap:12px;align-items:stretch;">
+            <div class="nav-box control-box" id="navBox" style="min-width:200px;" data-label="pages">
                 <ul class="selectable-list nav-list" id="siteNav">
                         <li>
                             <button class="selectable section-toggle" data-section="home">Home</button>
@@ -67,7 +76,7 @@
                 </ul>
             </div>
 
-            <div class="content-box control-box" id="contentBox" style="flex:1 1 0;" data-label="Content">
+            <div class="content-box control-box" id="contentBox" style="flex:1 1 0;" data-label="content">
                 <div id="contentBody" style="width:100%;height:100%;overflow:auto;color:var(--fg-color);font-family:inherit;font-size:1rem;">
                     <h2>Welcome</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.</p>
@@ -78,7 +87,7 @@
 
     <!-- Music player box -->
     <div class="player-wrapper" style="margin-top:12px;">
-        <div class="player-box control-box" id="playerBox" data-label="Music">
+        <div class="player-box control-box" id="playerBox" data-label="music">
             <div class="player-left" style="flex:1;">
                 <div id="nowPlaying">now playing - <span id="npAuthor">Author</span>, <em id="npTitle">Song Title</em></div>
             </div>

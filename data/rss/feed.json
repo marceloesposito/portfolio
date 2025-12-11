@@ -1,4 +1,6 @@
 {
-  "title": "RSS Feed",
-  "content": "<p>RSS feed placeholder — item A, item B, item C.</p><ul><li>Feed item A</li><li>Feed item B</li></ul>"
+  "title_en": "RSS Feed",
+  "title_it": "Feed RSS",
+  "content_en": "<p>This is my RSS feed containing the latest updates and articles. Subscribe to stay informed about new projects, blog posts, and announcements. The feed is updated regularly with fresh content.</p><ul><li>Latest Project Update</li><li>New Blog Post Published</li><li>Portfolio Redesign Announcement</li></ul>",
+  "content_it": "<p>Questo è il mio feed RSS che contiene gli ultimi aggiornamenti e articoli. Iscriviti per rimanere informato sui nuovi progetti, post del blog e annunci. Il feed viene aggiornato regolarmente con contenuti freschi.</p><ul><li>Ultimo Aggiornamento Progetto</li><li>Nuovo Post del Blog Pubblicato</li><li>Annuncio di Redesign del Portfolio</li></ul>"
 }

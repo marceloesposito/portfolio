@@ -1,4 +1,6 @@
 {
-  "title": "Blog Post 1",
-  "content": "<p>Blog post 1 — Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>"
+  "title_en": "Blog Post 1",
+  "title_it": "Post del Blog 1",
+  "content_en": "<p>In this blog post, I share insights and lessons learned from my recent projects. I explore best practices in web design, development techniques, and strategies for creating impactful digital experiences that resonate with users.</p>",
+  "content_it": "<p>In questo post del blog, condivido intuizioni e lezioni apprese dai miei recenti progetti. Esploro le migliori pratiche nel web design, tecniche di sviluppo e strategie per creare esperienze digitali di impatto che risuonano con gli utenti.</p>"
 }
