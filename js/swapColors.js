@@ -155,4 +155,63 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // default selection to serif
   if (fontButtons.length) applyFont('serif');
+
+  // ---------- Site pages data + navigator behavior ----------
+  const contentBody = document.getElementById('contentBody');
+  const navItems = Array.from(document.querySelectorAll('.nav-item'));
+
+  // Data structure for site pages: portfolio entries, blog posts, RSS page
+  const PAGES = {
+    'home': {
+      title: 'Home',
+      type: 'html',
+      content: '<h2>Welcome</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.</p>'
+    },
+    'portfolio-1': {
+      title: 'Project 1',
+      type: 'html',
+      content: '<h2>Project 1</h2><p>Project 1 description — Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>'
+    },
+    'portfolio-2': {
+      title: 'Project 2',
+      type: 'html',
+      content: '<h2>Project 2</h2><p>Project 2 description — Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue.</p>'
+    },
+    'blog-1': {
+      title: 'Blog Post 1',
+      type: 'html',
+      content: '<h2>Blog Post 1</h2><p>Blog post content — Cras ornare tristique elit. Vivamus vestibulum ntulla nec ante.</p>'
+    },
+    'rss': {
+      title: 'RSS Feed',
+      type: 'rss',
+      content: '<h2>RSS Feed</h2><p>Feed items will be shown here. (Placeholder)</p><ul><li>Item 1 — Example feed entry</li><li>Item 2 — Example feed entry</li></ul>'
+    }
+  };
+
+  function renderPage(key) {
+    const page = PAGES[key] || { title: key, type: 'html', content: '<p>No content</p>' };
+    if (!contentBody) return;
+    // For now all types render their HTML content string
+    contentBody.innerHTML = page.content;
+  }
+
+  // wire nav item clicks
+  navItems.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // single-select behavior
+      navItems.forEach(n => n.classList.remove('selected'));
+      btn.classList.add('selected');
+      // render page from data structure
+      const key = btn.dataset.page;
+      renderPage(key);
+    });
+  });
+
+  // default to home
+  if (navItems.length) {
+    const first = navItems.find(n => n.dataset.page === 'home') || navItems[0];
+    first.classList.add('selected');
+    renderPage(first.dataset.page);
+  }
 });

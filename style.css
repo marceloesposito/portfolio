@@ -4,6 +4,9 @@
     --fg-color: #58c2ff; /* foreground color (text, borders, shadows) */
     --transition-duration: 200ms;
     --transition-timing: ease-in-out;
+    --box-pad: 8px; /* uniform padding for boxed components */
+    --ui-pad-vert: 6px; /* vertical padding for controls */
+    --ui-pad-horiz: 8px; /* horizontal padding for controls */
 }
 
 * {
@@ -14,7 +17,7 @@
 
 html {
     /* 16pt == 21.333px at 96dpi; make 1rem equal to 16pt */
-    font-size: 21.333px;
+        font-size: 12px; /* Set base font size to 12px so 1rem == 12px */
     scroll-behavior: smooth;
 }
 
@@ -26,7 +29,7 @@ body {
 }
 
 /* Pagewide margin */
-body { margin: 2em; }
+body { margin: 2rem; }
 
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
@@ -96,9 +99,9 @@ input:focus, textarea:focus, select:focus {
     gap: 0.5rem;
 }
 
-.search-input {
-    width: 420px;
-    padding: 14px 16px; /* normal padding, button is outside */
+    .search-input {
+    width: 20em;
+    padding: var(--ui-pad-vert) var(--ui-pad-horiz); /* uniform control padding */
     font-size: 1rem;
     color: var(--fg-color);
     background: transparent;
@@ -106,7 +109,7 @@ input:focus, textarea:focus, select:focus {
     outline: none;
     border-radius: 0;
     box-shadow: 4px 4px 0 0 var(--fg-color);
-}
+    }
 
 .search-input:focus { box-shadow: 4px 4px 0 0 var(--fg-color); }
 
@@ -125,12 +128,13 @@ input:focus, textarea:focus, select:focus {
 
 .search-btn:active { transform: translateY(1px); }
 
+
 .text-box {
     display: block;
     width: 100%;
     max-width: 700px;
 
-    padding: 16px 20px;
+    padding: var(--box-pad);
     font-size: 1rem;
     color: var(--fg-color);
     background: transparent;
@@ -152,7 +156,7 @@ textarea.text-box {
 /* Generic box class used by index.html */
 .box {
     border: 1px solid var(--fg-color);
-    padding: 10px;
+    padding: var(--box-pad);
     margin: 10px;
     background-color: transparent;
     box-shadow: 4px 4px 0 var(--fg-color);
@@ -175,7 +179,7 @@ textarea.text-box {
     background: transparent;
     border: none; /* remove bounding box */
     color: var(--fg-color);
-    padding: 6px 8px;
+    padding: 0; /* remove padding for boxless buttons */
     cursor: pointer;
     text-decoration: underline;
     font-size: 1rem;
@@ -211,6 +215,7 @@ button#swapColors:focus { outline: none; }
     background: transparent;
     text-decoration: underline;
     color: var(--fg-color);
+    padding: 0; /* remove padding for boxless color buttons */
 }
 
 /* Animate color / background / border / shadow changes triggered by variable swaps */
@@ -226,7 +231,7 @@ button#swapColors:focus { outline: none; }
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 12px;
+    padding: 0 var(--box-pad); /* remove vertical padding, keep horizontal */
     border: 1px solid var(--fg-color);
     box-shadow: 4px 4px 0 var(--fg-color);
     background: transparent;
@@ -392,7 +397,7 @@ button {
     color: var(--fg-color);
     background: transparent;
     border: 1px solid var(--fg-color);
-    padding: 6px 10px;
+    padding: var(--ui-pad-vert) var(--ui-pad-horiz);
     margin: 6px;
     box-shadow: 4px 4px 0 var(--fg-color);
     cursor: pointer;
