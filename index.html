@@ -10,7 +10,7 @@
 
 <body>
     <div class="top-row" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-        <div class="control-box color-controls">
+        <div class="control-box color-controls" data-label="Colors">
             <button id="swapColors" class="color-button">Swap colors</button>
             <div class="color-preview" id="colorPreview">
                 <span class="color-square fg" aria-hidden="true"></span>
@@ -21,7 +21,7 @@
             <button id="randomizeColors" class="color-button">Randomize colors</button>
         </div>
 
-        <div class="control-box font-controls">
+        <div class="control-box font-controls" data-label="Fonts">
             <div class="font-box" id="fontBox">
                 <button class="font-toggle" data-font="serif" id="fontSerif">Serif</button>
                 <button class="font-toggle" data-font="sans" id="fontSans">Sans</button>
@@ -39,23 +39,60 @@
 
     <!-- Site navigator + content area: left = pages list, right = content viewer -->
     <div class="site-view" style="margin-top:12px;">
-        <div class="nav-and-content" style="display:flex;gap:12px;align-items:flex-start;">
-            <div class="nav-box control-box" id="navBox" style="min-width:200px;">
+        <div class="nav-and-content" style="display:flex;gap:12px;align-items:stretch;">
+            <div class="nav-box control-box" id="navBox" style="min-width:200px;" data-label="Pages">
                 <ul class="selectable-list nav-list" id="siteNav">
-                    <li><button class="selectable nav-item" data-page="home">Home</button></li>
-                    <li><button class="selectable nav-item" data-page="portfolio-1">Portfolio — Project 1</button></li>
-                    <li><button class="selectable nav-item" data-page="portfolio-2">Portfolio — Project 2</button></li>
-                    <li><button class="selectable nav-item" data-page="blog-1">Blog — Post 1</button></li>
-                    <li><button class="selectable nav-item" data-page="rss">RSS Feed</button></li>
+                        <li>
+                            <button class="selectable section-toggle" data-section="home">Home</button>
+                        </li>
+                        <li>
+                            <button class="selectable section-toggle" data-section="projects">Projects ▸</button>
+                            <ul class="nested" data-section="projects">
+                                <li><button class="selectable nav-item" data-file="data/projects/project1.json">Project 1</button></li>
+                                <li><button class="selectable nav-item" data-file="data/projects/project2.json">Project 2</button></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <button class="selectable section-toggle" data-section="blog">Blog ▸</button>
+                            <ul class="nested" data-section="blog">
+                                <li><button class="selectable nav-item" data-file="data/blog/post1.json">Post 1</button></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <button class="selectable section-toggle" data-section="rss">RSS Feed ▸</button>
+                            <ul class="nested" data-section="rss">
+                                <li><button class="selectable nav-item" data-file="data/rss/feed.json">Feed</button></li>
+                            </ul>
+                        </li>
                 </ul>
             </div>
 
-            <div class="content-box control-box" id="contentBox" style="flex:1 1 0;">
-                <div id="contentBody" style="width:100%;height:60vh;overflow:auto;color:var(--fg-color);font-family:inherit;font-size:1rem;">
+            <div class="content-box control-box" id="contentBox" style="flex:1 1 0;" data-label="Content">
+                <div id="contentBody" style="width:100%;height:100%;overflow:auto;color:var(--fg-color);font-family:inherit;font-size:1rem;">
                     <h2>Welcome</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.</p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Music player box -->
+    <div class="player-wrapper" style="margin-top:12px;">
+        <div class="player-box control-box" id="playerBox" data-label="Music">
+            <div class="player-left" style="flex:1;">
+                <div id="nowPlaying">now playing - <span id="npAuthor">Author</span>, <em id="npTitle">Song Title</em></div>
+            </div>
+            <div class="player-center" style="display:flex;gap:8px;align-items:center;">
+                <button id="skipBtn">skip</button>
+                <button id="pauseBtn">pause</button>
+                <button id="playBtn">play</button>
+                <button id="muteBtn">mute</button>
+            </div>
+            <div class="player-right" style="display:flex;gap:8px;align-items:center;">
+                <input id="volumeSlider" type="range" min="0" max="100" value="80" />
+                <div id="volumeLabel">volume: <span id="volumePercent">80</span>%</div>
+            </div>
+            <audio id="audioPlayer" preload="none"></audio>
         </div>
     </div>
 

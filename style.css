@@ -7,6 +7,7 @@
     --box-pad: 8px; /* uniform padding for boxed components */
     --ui-pad-vert: 6px; /* vertical padding for controls */
     --ui-pad-horiz: 8px; /* horizontal padding for controls */
+    --toc-height: 18rem; /* fixed height for table of contents box */
 }
 
 * {
@@ -236,6 +237,22 @@ button#swapColors:focus { outline: none; }
     box-shadow: 4px 4px 0 var(--fg-color);
     background: transparent;
     margin-right: 12px;
+    position: relative;
+}
+
+/* Small label shown just outside the top-left of any box that has a data-label */
+[data-label]::before {
+    content: attr(data-label);
+    position: absolute;
+    top: calc(-0.85rem);
+    left: var(--box-pad);
+    font-size: 0.78rem; /* ~2pt smaller than 1rem (12px -> ~9.36px) */
+    line-height: 1;
+    background: var(--bg-color);
+    color: var(--fg-color);
+    padding: 0 0.35rem;
+    z-index: 3;
+    pointer-events: none;
 }
 
 .control-box.color-controls { margin-bottom: 12px; }
@@ -247,6 +264,142 @@ button#swapColors:focus { outline: none; }
     align-items: center;
     gap: 8px;
     margin: 0 8px;
+}
+
+/* nested nav lists hidden by default */
+.nav-list .nested {
+    display: none;
+    margin-left: 0.5rem;
+    list-style: none;
+    padding-left: 0;
+}
+.nav-list .nested.open { display: block; }
+
+/* Table of contents fixed height and scrollable content */
+.nav-box {
+    height: var(--toc-height);
+    overflow: visible; /* allow label pseudo-element to show outside the box; list still scrolls */
+}
+.nav-box .nav-list {
+    height: 100%;
+    overflow: auto;
+    padding-right: 0.5rem; /* room for scrollbar */
+}
+
+/* Scrollbar styling for TOC: thinner, fg-colored thumb, no rounding */
+.nav-box .nav-list {
+    scrollbar-color: var(--fg-color) transparent; /* Firefox */
+    scrollbar-width: thin;
+}
+.nav-box .nav-list::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+.nav-box .nav-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+.nav-box .nav-list::-webkit-scrollbar-thumb {
+    background: var(--fg-color);
+    border-radius: 0; /* remove rounding */
+    box-shadow: none;
+}
+
+/* Make content-box match nav-box height */
+.content-box {
+    height: var(--toc-height);
+    display: flex;
+    flex-direction: column;
+}
+.content-box #contentBody {
+    height: 100%;
+}
+
+/* Hierarchy graphic lines */
+.nav-list {
+    position: relative;
+}
+.nav-list .nested {
+    position: relative;
+}
+/* vertical line for nested group */
+.nav-list .nested::before {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 0.25rem;
+    bottom: 0.25rem;
+    width: 1px;
+    background: currentColor;
+    color: var(--fg-color);
+    opacity: 0.18;
+}
+/* horizontal connector for each nested item */
+.nav-list .nested li {
+    position: relative;
+    padding-left: 1.25rem;
+}
+.nav-list .nested li::before {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 0.9rem;
+    width: 0.65rem;
+    height: 1px;
+    background: currentColor;
+    color: var(--fg-color);
+    opacity: 0.18;
+}
+
+/* Player box styles */
+.player-box {
+    width: 100%;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 1rem 1rem 0.5rem 1rem; /* extra top padding requested */
+    box-shadow: 4px 4px 0 var(--fg-color);
+    border: 1px solid var(--fg-color);
+    background: transparent;
+}
+.player-box #nowPlaying { color: var(--fg-color); font-size: 0.9rem; }
+.player-box button { padding: 6px 10px; border: none; box-shadow: none; background: transparent; }
+.player-right { min-width: 160px; justify-content: flex-end; }
+
+/* Volume slider styled to match theme */
+input[type=range] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 120px;
+    height: 4px; /* thinner */
+    background: transparent;
+}
+/* WebKit track */
+input[type=range]::-webkit-slider-runnable-track {
+    height: 4px;
+    background: rgba(88,194,255,0.12); /* subtle track */
+    border-radius: 0; /* remove rounding */
+}
+/* WebKit thumb */
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 14px;
+    background: var(--fg-color);
+    border: 1px solid var(--bg-color);
+    border-radius: 0; /* remove rounding */
+    margin-top: -5px; /* center the thumb vertically */
+}
+/* Firefox styling */
+input[type=range]::-moz-range-track { height: 4px; background: rgba(88,194,255,0.12); border-radius: 0; }
+input[type=range]::-moz-range-thumb { width: 10px; height: 14px; background: var(--fg-color); border: 1px solid var(--bg-color); border-radius: 0; }
+input[type=range]:focus { outline: none; }
+
+/* small responsive tweaks */
+@media (max-width: 700px) {
+    .nav-and-content { flex-direction: column; }
+    .nav-box, .content-box { height: auto; }
+    .player-box { flex-direction: column; align-items: stretch; }
 }
 
 .color-square {

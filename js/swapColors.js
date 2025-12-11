@@ -156,62 +156,97 @@ document.addEventListener('DOMContentLoaded', function() {
   // default selection to serif
   if (fontButtons.length) applyFont('serif');
 
-  // ---------- Site pages data + navigator behavior ----------
+  // ---------- Site pages navigator: fetch JSON pages and render ----------
   const contentBody = document.getElementById('contentBody');
-  const navItems = Array.from(document.querySelectorAll('.nav-item'));
 
-  // Data structure for site pages: portfolio entries, blog posts, RSS page
-  const PAGES = {
-    'home': {
-      title: 'Home',
-      type: 'html',
-      content: '<h2>Welcome</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.</p>'
-    },
-    'portfolio-1': {
-      title: 'Project 1',
-      type: 'html',
-      content: '<h2>Project 1</h2><p>Project 1 description — Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>'
-    },
-    'portfolio-2': {
-      title: 'Project 2',
-      type: 'html',
-      content: '<h2>Project 2</h2><p>Project 2 description — Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue.</p>'
-    },
-    'blog-1': {
-      title: 'Blog Post 1',
-      type: 'html',
-      content: '<h2>Blog Post 1</h2><p>Blog post content — Cras ornare tristique elit. Vivamus vestibulum ntulla nec ante.</p>'
-    },
-    'rss': {
-      title: 'RSS Feed',
-      type: 'rss',
-      content: '<h2>RSS Feed</h2><p>Feed items will be shown here. (Placeholder)</p><ul><li>Item 1 — Example feed entry</li><li>Item 2 — Example feed entry</li></ul>'
-    }
-  };
-
-  function renderPage(key) {
-    const page = PAGES[key] || { title: key, type: 'html', content: '<p>No content</p>' };
-    if (!contentBody) return;
-    // For now all types render their HTML content string
-    contentBody.innerHTML = page.content;
-  }
-
-  // wire nav item clicks
-  navItems.forEach(btn => {
+  // Toggle nested section lists
+  const sectionToggles = Array.from(document.querySelectorAll('.section-toggle'));
+  sectionToggles.forEach(btn => {
     btn.addEventListener('click', () => {
-      // single-select behavior
-      navItems.forEach(n => n.classList.remove('selected'));
-      btn.classList.add('selected');
-      // render page from data structure
-      const key = btn.dataset.page;
-      renderPage(key);
+      const section = btn.dataset.section;
+      const nested = document.querySelector('.nested[data-section="' + section + '"]');
+      if (!nested) return;
+      const isOpen = nested.classList.toggle('open');
+      btn.textContent = btn.textContent.replace(/▸|▾/, isOpen ? '▾' : '▸');
     });
   });
 
-  // default to home
-  if (navItems.length) {
-    const first = navItems.find(n => n.dataset.page === 'home') || navItems[0];
-    first.classList.add('selected');
-    renderPage(first.dataset.page);
+  // Nav item clicks load JSON file and render
+  const navItems = Array.from(document.querySelectorAll('.nav-item'));
+  async function loadAndRender(filePath) {
+    if (!contentBody) return;
+    try {
+      const res = await fetch(filePath);
+      if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
+      const json = await res.json();
+      contentBody.innerHTML = (json.title ? '<h2>' + json.title + '</h2>' : '') + (json.content || '');
+    } catch (err) {
+      contentBody.innerHTML = '<p>Unable to load content.</p><pre>' + (err && err.message) + '</pre>';
+    }
   }
+
+  navItems.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // visual single-select for nav items
+      document.querySelectorAll('.nav-item.selected').forEach(n => n.classList.remove('selected'));
+      btn.classList.add('selected');
+      const file = btn.dataset.file;
+      if (file) loadAndRender(file);
+    });
+  });
+
+  // load home by default (home could be a JSON file if desired)
+  // If there's a nav-item that points to a home file, prefer it; otherwise show existing content
+  const homeItem = document.querySelector('.nav-item[data-file="data/home.json"]');
+  if (homeItem) homeItem.click();
+
+  // ---------- Music player wiring ----------
+  const audio = document.getElementById('audioPlayer');
+  const playBtn = document.getElementById('playBtn');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const skipBtn = document.getElementById('skipBtn');
+  const muteBtn = document.getElementById('muteBtn');
+  const volumeSlider = document.getElementById('volumeSlider');
+  const volumePercent = document.getElementById('volumePercent');
+  const npAuthor = document.getElementById('npAuthor');
+  const npTitle = document.getElementById('npTitle');
+
+  const PLAYLIST = [
+    { author: 'Artist A', title: 'Sample Track 1', src: '' },
+    { author: 'Artist B', title: 'Sample Track 2', src: '' }
+  ];
+  let currentTrack = 0;
+
+  function loadTrack(i) {
+    currentTrack = (i + PLAYLIST.length) % PLAYLIST.length;
+    const t = PLAYLIST[currentTrack];
+    if (npAuthor) npAuthor.textContent = t.author;
+    if (npTitle) npTitle.textContent = t.title;
+    if (audio) {
+      if (t.src) {
+        audio.src = t.src;
+        audio.load();
+      } else {
+        audio.removeAttribute('src');
+      }
+    }
+  }
+
+  if (playBtn) playBtn.addEventListener('click', () => { if (audio) audio.play().catch(()=>{}); });
+  if (pauseBtn) pauseBtn.addEventListener('click', () => { if (audio) audio.pause(); });
+  if (skipBtn) skipBtn.addEventListener('click', () => { loadTrack(currentTrack + 1); if (audio && audio.src) audio.play().catch(()=>{}); });
+  if (muteBtn) muteBtn.addEventListener('click', () => { if (audio) audio.muted = !audio.muted; });
+
+  if (volumeSlider) {
+    volumeSlider.addEventListener('input', (e) => {
+      const v = Number(e.target.value) / 100;
+      if (audio) audio.volume = v;
+      if (volumePercent) volumePercent.textContent = e.target.value;
+    });
+    // initialize
+    volumeSlider.dispatchEvent(new Event('input'));
+  }
+
+  // load initial track info
+  loadTrack(0);
 });
