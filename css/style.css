@@ -199,6 +199,31 @@ button#swapColors:focus { outline: none; }
     margin-right: 0;
 }
 
+/* lang-toggle helper (applies to language controls) */
+.lang-toggle {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    text-decoration: underline;
+    color: var(--fg-color);
+    padding: 0;
+}
+
+.lang-toggle.selected {
+    background: var(--fg-color);
+    color: var(--bg-color);
+}
+
+/* music-btn helper (applies to music player controls) */
+.music-btn {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    text-decoration: underline;
+    color: var(--fg-color);
+    padding: 0;
+}
+
 /* Animate color / background / border / shadow changes triggered by variable swaps */
 :root, body, body * {
     transition: color var(--transition-duration) var(--transition-timing),
