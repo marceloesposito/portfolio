@@ -5,8 +5,8 @@
     --transition-duration: 200ms;
     --transition-timing: ease-in-out;
     --box-pad: 8px; /* uniform padding for boxed components */
-    --ui-pad-vert: 6px; /* vertical padding for controls */
-    --ui-pad-horiz: 8px; /* horizontal padding for controls */
+    --ui-pad-vert: 14px; /* vertical padding for controls */
+    --ui-pad-horiz: 16px; /* horizontal padding for controls */
 }
 
 * {
@@ -57,29 +57,6 @@ img {
     display: block;
 }
 
-    button {
-        font-family: inherit;
-        font-size: 1rem; /* match other text */
-        color: var(--fg-color);
-        background: transparent;
-        border: 1px solid var(--fg-color);
-        padding: 6px 10px;
-        margin: 6px;
-        box-shadow: 4px 4px 0 var(--fg-color);
-        cursor: pointer;
-        text-decoration: underline;
-    }
-
-    button:active { transform: translateY(1px); }
-
-    /* Search button tweak: ensure vertical centering and matching text size */
-    .search-btn {
-        font-size: 1rem;
-        line-height: 1;
-        padding: 14px 16px;
-    }
-
-
 input:focus, textarea:focus, select:focus {
     outline: none;
     border-color: var(--fg-color);
@@ -117,11 +94,11 @@ input:focus, textarea:focus, select:focus {
 .search-btn {
     background: transparent;
     color: var(--fg-color);
-    padding: 14px 16px;
     cursor: pointer;
     text-decoration: underline;
     box-shadow: 4px 4px 0 var(--fg-color);
     font-size: 1rem;
+    line-height: 1;
     align-self: center;
     border: 1px solid var(--fg-color); /* add stroke */
 }
@@ -199,8 +176,8 @@ strong, b, h1, h2, h3, h4, h5, h6 { font-weight: normal !important; }
 button#swapColors {
     background: transparent;
     color: var(--fg-color);
-    padding: 6px 10px;
-    margin: 10px;
+    padding: 14px 16px;
+    margin: 6px;
     cursor: pointer;
     border: none; /* remove bounding box for color controls */
     box-shadow: none;
@@ -216,6 +193,10 @@ button#swapColors:focus { outline: none; }
     text-decoration: underline;
     color: var(--fg-color);
     padding: 0; /* remove padding for boxless color buttons */
+}
+
+#randomizeColors {
+    margin-right: 0;
 }
 
 /* Animate color / background / border / shadow changes triggered by variable swaps */
@@ -236,10 +217,22 @@ button#swapColors:focus { outline: none; }
     box-shadow: 4px 4px 0 var(--fg-color);
     background: transparent;
     margin-right: 12px;
+    position: relative;
 }
 
 .control-box.color-controls { margin-bottom: 12px; }
 .control-box.font-controls { margin-bottom: 12px; }
+
+.control-wrapper, .nav-wrapper, .content-wrapper {
+    display: inline-block;
+}
+
+.box-label {
+    font-size: 0.75rem;
+    color: var(--fg-color);
+    font-weight: normal;
+    margin-bottom: 4px;
+}
 
 /* Color preview small squares + hex labels */
 .color-preview {
@@ -377,6 +370,36 @@ button#swapColors:focus { outline: none; }
     display: inline-block;
 }
 
+.collapsible {
+    background: transparent;
+    border: none;
+    color: var(--fg-color);
+    text-decoration: underline;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.12em 0.35em;
+    cursor: pointer;
+    box-shadow: none;
+}
+
+.collapsible::after {
+    content: '▶';
+    margin-left: 0.5em;
+}
+
+.collapsible.expanded::after {
+    content: '▼';
+}
+
+.sub-list {
+    display: none;
+    list-style: none;
+    margin-left: 1rem;
+    padding: 0;
+    border-left: 1px solid var(--fg-color);
+    padding-left: 0.5rem;
+}
+
 /* Layout for lists side-by-side */
 .lists-row {
     display: flex;
@@ -394,6 +417,8 @@ button#swapColors:focus { outline: none; }
 input, textarea, select, button { font-family: inherit; }
 
 button {
+    font-family: inherit;
+    font-size: 1rem;
     color: var(--fg-color);
     background: transparent;
     border: 1px solid var(--fg-color);

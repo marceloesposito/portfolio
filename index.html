@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- HEADING -->
 <head>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <title>Portfolio</title>
     <meta charset="utf-8">
 </head>
@@ -9,23 +9,30 @@
 <!-- BODY -->
 
 <body>
-    <div class="top-row" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-        <div class="control-box color-controls">
-            <button id="swapColors" class="color-button">Swap colors</button>
-            <div class="color-preview" id="colorPreview">
-                <span class="color-square fg" aria-hidden="true"></span>
-                <span class="color-hex" id="fgHex">#58c2ff</span>
-                <span class="color-square bg" aria-hidden="true"></span>
-                <span class="color-hex" id="bgHex">#050712</span>
+    <div class="top-row" style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;">
+        <div class="control-wrapper">
+            <div class="box-label">color controls</div>
+            <div class="control-box color-controls">
+                <button id="swapColors" class="color-button">swap colors</button>
+                <div class="color-preview" id="colorPreview">
+                    <span class="color-square fg" aria-hidden="true"></span>
+                    <span class="color-hex" id="fgHex">#58c2ff</span>
+                    <span class="color-square bg" aria-hidden="true"></span>
+                    <span class="color-hex" id="bgHex">#050712</span>
+                </div>
+                <button id="randomizeColors" class="color-button">randomize colors</button>
+                <button id="saveColors" class="color-button">save colors</button>
             </div>
-            <button id="randomizeColors" class="color-button">Randomize colors</button>
         </div>
 
-        <div class="control-box font-controls">
-            <div class="font-box" id="fontBox">
-                <button class="font-toggle" data-font="serif" id="fontSerif">Serif</button>
-                <button class="font-toggle" data-font="sans" id="fontSans">Sans</button>
-                <button class="font-toggle" data-font="mono" id="fontMono">Mono</button>
+        <div class="control-wrapper">
+            <div class="box-label">font controls</div>
+            <div class="control-box font-controls">
+                <div class="font-box" id="fontBox">
+                    <button class="font-toggle" data-font="serif" id="fontSerif">serif</button>
+                    <button class="font-toggle" data-font="sans" id="fontSans">sans</button>
+                    <button class="font-toggle" data-font="mono" id="fontMono">mono</button>
+                </div>
             </div>
         </div>
     </div>
@@ -34,29 +41,45 @@
         <div class="search-wrap">
             <input id="siteSearch" class="search-input" type="search" placeholder="type here to search">
         </div>
-        <button id="searchBtn" class="search-btn" type="button">Search</button>
+        <button id="searchBtn" class="search-btn" type="button">search</button>
     </div>
 
     <!-- Site navigator + content area: left = pages list, right = content viewer -->
     <div class="site-view" style="margin-top:12px;">
         <div class="nav-and-content" style="display:flex;gap:12px;align-items:flex-start;">
-            <div class="nav-box control-box" id="navBox" style="min-width:200px;">
-                <ul class="selectable-list nav-list" id="siteNav">
-                    <li><button class="selectable nav-item" data-page="home">Home</button></li>
-                    <li><button class="selectable nav-item" data-page="portfolio-1">Portfolio — Project 1</button></li>
-                    <li><button class="selectable nav-item" data-page="portfolio-2">Portfolio — Project 2</button></li>
-                    <li><button class="selectable nav-item" data-page="blog-1">Blog — Post 1</button></li>
-                    <li><button class="selectable nav-item" data-page="rss">RSS Feed</button></li>
-                </ul>
+            <div class="nav-wrapper">
+                <div class="box-label">navigation</div>
+                <div class="nav-box control-box" id="navBox" style="min-width:200px; height:60vh;">
+                    <ul class="selectable-list nav-list" id="siteNav">
+                        <li><button class="selectable nav-item" data-page="home">home</button></li>
+                        <li>
+                            <button class="collapsible">portfolio</button>
+                            <ul class="sub-list">
+                                <li><button class="selectable nav-item" data-page="portfolio-1">project 1</button></li>
+                                <li><button class="selectable nav-item" data-page="portfolio-2">project 2</button></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <button class="collapsible">blog</button>
+                            <ul class="sub-list">
+                                <li><button class="selectable nav-item" data-page="blog-1">post 1</button></li>
+                            </ul>
+                        </li>
+                        <li><button class="selectable nav-item" data-page="rss">rss feed</button></li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="content-box control-box" id="contentBox" style="flex:1 1 0;">
-                <div id="contentBody" style="width:100%;height:60vh;overflow:auto;color:var(--fg-color);font-family:inherit;font-size:1rem;">
-                    <h2>Welcome</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.</p>
+            <div class="content-wrapper">
+                <div class="box-label">content</div>
+                <div class="content-box control-box" id="contentBox" style="flex:1 1 0;">
+                    <div id="contentBody" style="width:100%;height:60vh;overflow:auto;color:var(--fg-color);font-family:inherit;font-size:1rem;">
+                        <h2>welcome</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-<script src="js/swapColors.js"></script>
+    
+    <script src="js/main.js"></script>

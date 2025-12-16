@@ -2,6 +2,83 @@ document.addEventListener('DOMContentLoaded', function() {
   const root = document.documentElement;
   const swapBtn = document.getElementById('swapColors');
   const randomBtn = document.getElementById('randomizeColors');
+  const saveBtn = document.getElementById('saveColors');
+  const langEnBtn = document.getElementById('langEn');
+  const langItBtn = document.getElementById('langIt');
+  let currentLang = localStorage.getItem('lang') || 'en';
+
+  const translations = {
+    en: {
+      'color controls': 'color controls',
+      'font controls': 'font controls',
+      'language controls': 'language controls',
+      'navigation': 'navigation',
+      'content': 'content',
+      'swap colors': 'swap colors',
+      'randomize colors': 'randomize colors',
+      'save colors': 'save colors',
+      'serif': 'serif',
+      'sans': 'sans',
+      'mono': 'mono',
+      'search': 'search',
+      'home': 'home',
+      'portfolio': 'portfolio',
+      'project 1': 'project 1',
+      'project 2': 'project 2',
+      'blog': 'blog',
+      'post 1': 'post 1',
+      'rss feed': 'rss feed',
+      'english': 'english',
+      'italian': 'italian',
+      'type here to search': 'type here to search'
+    },
+    it: {
+      'color controls': 'controlli colore',
+      'font controls': 'controlli font',
+      'language controls': 'controlli lingua',
+      'navigation': 'navigazione',
+      'content': 'contenuto',
+      'swap colors': 'scambia colori',
+      'randomize colors': 'randomizza colori',
+      'save colors': 'salva colori',
+      'serif': 'serif',
+      'sans': 'sans',
+      'mono': 'mono',
+      'search': 'cerca',
+      'home': 'casa',
+      'portfolio': 'portfolio',
+      'project 1': 'progetto 1',
+      'project 2': 'progetto 2',
+      'blog': 'blog',
+      'post 1': 'post 1',
+      'rss feed': 'feed rss',
+      'english': 'inglese',
+      'italian': 'italiano',
+      'type here to search': 'digita qui per cercare'
+    }
+  };
+
+  function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+    document.querySelectorAll('[data-lang-key]').forEach(el => {
+      const key = el.dataset.langKey;
+      if (translations[lang][key]) {
+        el.textContent = translations[lang][key];
+      }
+    });
+    document.querySelectorAll('[data-lang-placeholder]').forEach(el => {
+      const key = el.dataset.langPlaceholder;
+      if (translations[lang][key]) {
+        el.placeholder = translations[lang][key];
+      }
+    });
+    // Re-render current page
+    const currentPage = document.querySelector('.nav-item.selected');
+    if (currentPage) {
+      renderPage(currentPage.dataset.page);
+    }
+  }
 
   // Utilities: color conversions and WCAG contrast
   function hexToRgb(hex) {
@@ -76,6 +153,15 @@ document.addEventListener('DOMContentLoaded', function() {
     updateColorPreview();
   }
 
+  // save current colors to localStorage
+  function saveColors() {
+    const styles = getComputedStyle(root);
+    const bg = styles.getPropertyValue('--bg-color').trim();
+    const fg = styles.getPropertyValue('--fg-color').trim();
+    localStorage.setItem('savedBg', bg);
+    localStorage.setItem('savedFg', fg);
+  }
+
   // Generate a palette of 8 vectors (each with 2 colors)
   const palette = buildPalette(8);
 
@@ -106,13 +192,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (swapBtn) swapBtn.addEventListener('click', swapColors);
   if (randomBtn) randomBtn.addEventListener('click', applyRandomVector);
+  if (saveBtn) saveBtn.addEventListener('click', saveColors);
 
   // wire global function (keeps previous behavior available)
   window.swapColors = swapColors;
   window.randomizeColors = applyRandomVector;
 
-  // Optionally apply an initial random vector on load
-  applyRandomVector();
+  // Optionally apply an initial vector on load: saved or random
+  const savedBg = localStorage.getItem('savedBg');
+  const savedFg = localStorage.getItem('savedFg');
+  if (savedBg && savedFg) {
+    applyVector([savedBg, savedFg]);
+  } else {
+    applyRandomVector();
+  }
   // ensure preview labels reflect current variables
   updateColorPreview();
   
@@ -131,6 +224,21 @@ document.addEventListener('DOMContentLoaded', function() {
     btn.addEventListener('click', () => {
       singleButtons.forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
+    });
+  });
+
+  // ---------- Collapsible sections ----------
+  const collapsibles = Array.from(document.querySelectorAll('.collapsible'));
+  collapsibles.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const subList = btn.nextElementSibling;
+      if (subList.style.display === 'none' || subList.style.display === '') {
+        subList.style.display = 'block';
+        btn.classList.add('expanded');
+      } else {
+        subList.style.display = 'none';
+        btn.classList.remove('expanded');
+      }
     });
   });
 
@@ -163,29 +271,29 @@ document.addEventListener('DOMContentLoaded', function() {
   // Data structure for site pages: portfolio entries, blog posts, RSS page
   const PAGES = {
     'home': {
-      title: 'Home',
+      title: 'home',
       type: 'html',
-      content: '<h2>Welcome</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.</p>'
+      content: '<h2>welcome</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.</p>'
     },
     'portfolio-1': {
-      title: 'Project 1',
+      title: 'project 1',
       type: 'html',
-      content: '<h2>Project 1</h2><p>Project 1 description — Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>'
+      content: '<h2>project 1</h2><p>project 1 description — Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>'
     },
     'portfolio-2': {
-      title: 'Project 2',
+      title: 'project 2',
       type: 'html',
-      content: '<h2>Project 2</h2><p>Project 2 description — Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue.</p>'
+      content: '<h2>project 2</h2><p>project 2 description — Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue.</p>'
     },
     'blog-1': {
-      title: 'Blog Post 1',
+      title: 'blog post 1',
       type: 'html',
-      content: '<h2>Blog Post 1</h2><p>Blog post content — Cras ornare tristique elit. Vivamus vestibulum ntulla nec ante.</p>'
+      content: '<h2>blog post 1</h2><p>blog post content — Cras ornare tristique elit. Vivamus vestibulum ntulla nec ante.</p>'
     },
     'rss': {
-      title: 'RSS Feed',
+      title: 'rss feed',
       type: 'rss',
-      content: '<h2>RSS Feed</h2><p>Feed items will be shown here. (Placeholder)</p><ul><li>Item 1 — Example feed entry</li><li>Item 2 — Example feed entry</li></ul>'
+      content: '<h2>rss feed</h2><p>feed items will be shown here. (placeholder)</p><ul><li>item 1 — example feed entry</li><li>item 2 — example feed entry</li></ul>'
     }
   };
 
