@@ -29,10 +29,13 @@
             </div>
         </div>
 
-        <div class="control-box lang-controls" data-label="language">
-            <div class="lang-box" id="langBox">
-                <button class="lang-toggle selected" data-lang="en" id="langEn" data-i18n="english">English</button>
-                <button class="lang-toggle" data-lang="it" id="langIt" data-i18n="italian">Italian</button>
+        <div class="control-wrapper">
+            <div class="box-label">language</div>
+            <div class="control-box lang-controls">
+                <div class="lang-box" id="langBox">
+                    <button class="lang-toggle selected" data-lang="en" id="langEn">english</button>
+                    <button class="lang-toggle" data-lang="it" id="langIt">italian</button>
+                </div>
             </div>
         </div>
     </div>
@@ -49,30 +52,23 @@
         <div class="nav-and-content" style="display:flex;gap:12px;align-items:stretch;">
             <div class="nav-wrapper">
                 <div class="box-label">navigation</div>
-                <div class="nav-box control-box" id="navBox" style="min-width:200px;" data-label="pages">
+                <div class="nav-box control-box" id="navBox" style="min-width:200px; height:60vh;">
                     <ul class="selectable-list nav-list" id="siteNav">
+                        <li><button class="selectable nav-item" data-file="data/home.json">home</button></li>
                         <li>
-                            <button class="selectable section-toggle" data-section="home">Home</button>
-                        </li>
-                        <li>
-                            <button class="selectable section-toggle" data-section="projects">Projects ▸</button>
-                            <ul class="nested" data-section="projects">
-                                <li><button class="selectable nav-item" data-file="data/projects/project1.json">Project 1</button></li>
-                                <li><button class="selectable nav-item" data-file="data/projects/project2.json">Project 2</button></li>
+                            <button class="collapsible">portfolio</button>
+                            <ul class="sub-list">
+                                <li><button class="selectable nav-item" data-file="data/projects/project1.json">project 1</button></li>
+                                <li><button class="selectable nav-item" data-file="data/projects/project2.json">project 2</button></li>
                             </ul>
                         </li>
                         <li>
-                            <button class="selectable section-toggle" data-section="blog">Blog ▸</button>
-                            <ul class="nested" data-section="blog">
-                                <li><button class="selectable nav-item" data-file="data/blog/post1.json">Post 1</button></li>
+                            <button class="collapsible">blog</button>
+                            <ul class="sub-list">
+                                <li><button class="selectable nav-item" data-file="data/blog/post1.json">post 1</button></li>
                             </ul>
                         </li>
-                        <li>
-                            <button class="selectable section-toggle" data-section="rss">RSS Feed ▸</button>
-                            <ul class="nested" data-section="rss">
-                                <li><button class="selectable nav-item" data-file="data/rss/feed.json">Feed</button></li>
-                            </ul>
-                        </li>
+                        <li><button class="selectable nav-item" data-file="data/rss/feed.json">rss feed</button></li>
                     </ul>
                 </div>
             </div>
@@ -89,9 +85,9 @@
         </div>
     </div>
 
-    <!-- Music player box -->
-    <div class="player-wrapper" style="margin-top:12px;">
-        <div class="player-box control-box" id="playerBox" data-label="music">
+    <div class="control-wrapper" style="margin-top:12px;">
+        <div class="box-label">music player</div>
+        <div class="player-box control-box" id="playerBox">
             <div class="player-left" style="flex:1;">
                 <div id="nowPlaying">now playing - <span id="npAuthor">Author</span>, <em id="npTitle">Song Title</em></div>
             </div>
