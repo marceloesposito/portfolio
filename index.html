@@ -10,22 +10,32 @@
 
 <body>
     <div class="top-row" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-        <div class="control-box color-controls" data-label="colors">
-            <button id="swapColors" class="color-button" data-i18n="swapColors">swap colors</button>
-            <div class="color-preview" id="colorPreview">
-                <span class="color-square fg" aria-hidden="true"></span>
-                <span class="color-hex" id="fgHex">#58c2ff</span>
-                <span class="color-square bg" aria-hidden="true"></span>
-                <span class="color-hex" id="bgHex">#050712</span>
+        <div class="logotype" style="font-family: 'Times New Roman', Times, serif; font-size: 1.5rem; letter-spacing: 0; color: var(--fg-color); margin: 0.75rem 20px 0; align-self: center;">
+            mb<span style="font-weight: bold; font-style: italic; background: var(--fg-color); color: var(--bg-color);">md</span>
+        </div>
+        <div class="control-wrapper">
+            <div class="box-label">colors</div>
+            <div class="control-box color-controls" data-label="colors">
+                <button id="swapColors" class="color-button" data-i18n="swapColors">swap colors</button>
+                <div class="color-preview" id="colorPreview">
+                    <span class="color-square fg" aria-hidden="true"></span>
+                    <span class="color-hex" id="fgHex">#58c2ff</span>
+                    <span class="color-square bg" aria-hidden="true"></span>
+                    <span class="color-hex" id="bgHex">#050712</span>
+                </div>
+                <button id="randomizeColors" class="color-button" data-i18n="randomizeColors">randomize colors</button>
+                <button id="saveColors" class="color-button" data-i18n="saveColors">save colors</button>
             </div>
-            <button id="randomizeColors" class="color-button" data-i18n="randomizeColors">randomize colors</button>
         </div>
 
-        <div class="control-box font-controls" data-label="fonts">
-            <div class="font-box" id="fontBox">
-                <button class="font-toggle" data-font="serif" id="fontSerif">serif</button>
-                <button class="font-toggle" data-font="sans" id="fontSans">sans</button>
-                <button class="font-toggle" data-font="mono" id="fontMono">mono</button>
+        <div class="control-wrapper">
+            <div class="box-label">fonts</div>
+            <div class="control-box font-controls" data-label="fonts">
+                <div class="font-box" id="fontBox">
+                    <button class="font-toggle" data-font="serif" id="fontSerif">serif</button>
+                    <button class="font-toggle" data-font="sans" id="fontSans">sans</button>
+                    <button class="font-toggle" data-font="mono" id="fontMono">mono</button>
+                </div>
             </div>
         </div>
 
@@ -39,6 +49,8 @@
             </div>
         </div>
     </div>
+
+    <hr style="border: 1px solid var(--fg-color); margin: 1.5rem 0; border-width: 1px 0 0 0;">
 
     <div class="search-row" style="display:flex;gap:8px;align-items:center;margin-top:8px;margin-bottom:12px;">
         <div class="search-wrap">
@@ -84,6 +96,8 @@
             </div>
         </div>
     </div>
+
+    <hr style="border: 1px solid var(--fg-color); margin: 1.5rem 0; border-width: 1px 0 0 0;">
 
     <div class="control-wrapper" style="margin-top:12px;">
         <div class="box-label">music player</div>

@@ -96,11 +96,9 @@ input:focus, textarea:focus, select:focus {
     color: var(--fg-color);
     cursor: pointer;
     text-decoration: underline;
-    box-shadow: 4px 4px 0 var(--fg-color);
     font-size: 1rem;
     line-height: 1;
     align-self: center;
-    border: 1px solid var(--fg-color); /* add stroke */
 }
 
 .search-btn:active { transform: translateY(1px); }
@@ -145,7 +143,7 @@ textarea.text-box {
     display: inline-flex;
     gap: 6px;
     align-items: center;
-    margin-left: 8px;
+    margin-left: 0;
     padding: 0; /* remove bounding visual */
     border: none;
     box-shadow: none;
@@ -156,7 +154,7 @@ textarea.text-box {
     background: transparent;
     border: none; /* remove bounding box */
     color: var(--fg-color);
-    padding: 0; /* remove padding for boxless buttons */
+    padding: 0;
     cursor: pointer;
     text-decoration: underline;
     font-size: 1rem;
@@ -176,7 +174,7 @@ strong, b, h1, h2, h3, h4, h5, h6 { font-weight: normal !important; }
 button#swapColors {
     background: transparent;
     color: var(--fg-color);
-    padding: 14px 16px;
+    padding: 0;
     margin: 6px;
     cursor: pointer;
     border: none; /* remove bounding box for color controls */
@@ -192,7 +190,7 @@ button#swapColors:focus { outline: none; }
     background: transparent;
     text-decoration: underline;
     color: var(--fg-color);
-    padding: 0; /* remove padding for boxless color buttons */
+    padding: 0;
 }
 
 #randomizeColors {
@@ -237,7 +235,7 @@ button#swapColors:focus { outline: none; }
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 0 var(--box-pad); /* remove vertical padding, keep horizontal */
+    padding: var(--box-pad) var(--box-pad);
     border: 1px solid var(--fg-color);
     box-shadow: 4px 4px 0 var(--fg-color);
     background: transparent;
@@ -245,8 +243,7 @@ button#swapColors:focus { outline: none; }
     position: relative;
 }
 
-.control-box.color-controls { margin-bottom: 12px; }
-.control-box.font-controls { margin-bottom: 12px; }
+/* Removed margin-bottom for color and font controls as they are now in wrappers */
 
 .control-wrapper, .nav-wrapper, .content-wrapper {
     display: inline-block;
@@ -446,10 +443,10 @@ button {
     font-size: 1rem;
     color: var(--fg-color);
     background: transparent;
-    border: 1px solid var(--fg-color);
-    padding: var(--ui-pad-vert) var(--ui-pad-horiz);
+    border: none;
+    box-shadow: none;
+    padding: 0;
     margin: 6px;
-    box-shadow: 4px 4px 0 var(--fg-color);
     cursor: pointer;
     text-decoration: underline;
 }
