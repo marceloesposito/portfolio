@@ -1,108 +1,85 @@
 <!DOCTYPE html>
 <!-- HEADING -->
 <head>
-    <link rel="stylesheet" href="style.css">
-    <title>mbmd portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Portfolio</title>
     <meta charset="utf-8">
 </head>
 
 <!-- BODY -->
 
 <body>
-    <div class="top-row" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-        <div class="control-box color-controls" data-label="colors">
-            <button id="swapColors" class="color-button" data-i18n="swapColors">Swap colors</button>
-            <div class="color-preview" id="colorPreview">
-                <span class="color-square fg" aria-hidden="true"></span>
-                <span class="color-hex" id="fgHex">#58c2ff</span>
-                <span class="color-square bg" aria-hidden="true"></span>
-                <span class="color-hex" id="bgHex">#050712</span>
-            </div>
-            <button id="randomizeColors" class="color-button" data-i18n="randomizeColors">Randomize colors</button>
-        </div>
-
-        <div class="control-box font-controls" data-label="fonts">
-            <div class="font-box" id="fontBox">
-                <button class="font-toggle" data-font="serif" id="fontSerif">Serif</button>
-                <button class="font-toggle" data-font="sans" id="fontSans">Sans</button>
-                <button class="font-toggle" data-font="mono" id="fontMono">Mono</button>
+    <div class="top-row" style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;">
+        <div class="control-wrapper">
+            <div class="box-label">color controls</div>
+            <div class="control-box color-controls">
+                <button id="swapColors" class="color-button">swap colors</button>
+                <div class="color-preview" id="colorPreview">
+                    <span class="color-square fg" aria-hidden="true"></span>
+                    <span class="color-hex" id="fgHex">#58c2ff</span>
+                    <span class="color-square bg" aria-hidden="true"></span>
+                    <span class="color-hex" id="bgHex">#050712</span>
+                </div>
+                <button id="randomizeColors" class="color-button">randomize colors</button>
+                <button id="saveColors" class="color-button">save colors</button>
             </div>
         </div>
 
-        <div class="control-box lang-controls" data-label="language">
-            <div class="lang-box" id="langBox">
-                <button class="lang-toggle selected" data-lang="en" id="langEn" data-i18n="english">English</button>
-                <button class="lang-toggle" data-lang="it" id="langIt" data-i18n="italian">Italian</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="search-row" style="display:flex;gap:8px;align-items:center;margin-top:8px;margin-bottom:12px;">
-        <div class="control-box search-controls" style="display:inline-flex;align-items:center;" id="searchBox" data-label="search">
-            <div class="search-wrap">
-                <input id="siteSearch" class="search-input" type="search" placeholder="type here to search">
-            </div>
-            <button id="searchBtn" class="search-btn" type="button">Search</button>
-        </div>
-    </div>
-
-    <!-- Site navigator + content area: left = pages list, right = content viewer -->
-    <div class="site-view" style="margin-top:12px;">
-            <div class="nav-and-content" style="display:flex;gap:12px;align-items:stretch;">
-            <div class="nav-box control-box" id="navBox" style="min-width:200px;" data-label="pages">
-                <ul class="selectable-list nav-list" id="siteNav">
-                        <li>
-                            <button class="selectable section-toggle" data-section="home">Home</button>
-                        </li>
-                        <li>
-                            <button class="selectable section-toggle" data-section="projects">Projects ▸</button>
-                            <ul class="nested" data-section="projects">
-                                <li><button class="selectable nav-item" data-file="data/projects/project1.json">Project 1</button></li>
-                                <li><button class="selectable nav-item" data-file="data/projects/project2.json">Project 2</button></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <button class="selectable section-toggle" data-section="blog">Blog ▸</button>
-                            <ul class="nested" data-section="blog">
-                                <li><button class="selectable nav-item" data-file="data/blog/post1.json">Post 1</button></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <button class="selectable section-toggle" data-section="rss">RSS Feed ▸</button>
-                            <ul class="nested" data-section="rss">
-                                <li><button class="selectable nav-item" data-file="data/rss/feed.json">Feed</button></li>
-                            </ul>
-                        </li>
-                </ul>
-            </div>
-
-            <div class="content-box control-box" id="contentBox" style="flex:1 1 0;" data-label="content">
-                <div id="contentBody" style="width:100%;height:100%;overflow:auto;color:var(--fg-color);font-family:inherit;font-size:1rem;">
-                    <h2>Welcome</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.</p>
+        <div class="control-wrapper">
+            <div class="box-label">font controls</div>
+            <div class="control-box font-controls">
+                <div class="font-box" id="fontBox">
+                    <button class="font-toggle" data-font="serif" id="fontSerif">serif</button>
+                    <button class="font-toggle" data-font="sans" id="fontSans">sans</button>
+                    <button class="font-toggle" data-font="mono" id="fontMono">mono</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Music player box -->
-    <div class="player-wrapper" style="margin-top:12px;">
-        <div class="player-box control-box" id="playerBox" data-label="music">
-            <div class="player-left" style="flex:1;">
-                <div id="nowPlaying">now playing - <span id="npAuthor">Author</span>, <em id="npTitle">Song Title</em></div>
-            </div>
-            <div class="player-center" style="display:flex;gap:8px;align-items:center;">
-                <button id="skipBtn">skip</button>
-                <button id="pauseBtn">pause</button>
-                <button id="playBtn">play</button>
-                <button id="muteBtn">mute</button>
-            </div>
-            <div class="player-right" style="display:flex;gap:8px;align-items:center;">
-                <input id="volumeSlider" type="range" min="0" max="100" value="80" />
-                <div id="volumeLabel">volume: <span id="volumePercent">80</span>%</div>
-            </div>
-            <audio id="audioPlayer" preload="none"></audio>
+    <div class="search-row" style="display:flex;gap:8px;align-items:center;margin-top:8px;margin-bottom:12px;">
+        <div class="search-wrap">
+            <input id="siteSearch" class="search-input" type="search" placeholder="type here to search">
         </div>
+        <button id="searchBtn" class="search-btn" type="button">search</button>
     </div>
 
-<script src="js/swapColors.js"></script>
+    <!-- Site navigator + content area: left = pages list, right = content viewer -->
+    <div class="site-view" style="margin-top:12px;">
+        <div class="nav-and-content" style="display:flex;gap:12px;align-items:flex-start;">
+            <div class="nav-wrapper">
+                <div class="box-label">navigation</div>
+                <div class="nav-box control-box" id="navBox" style="min-width:200px; height:60vh;">
+                    <ul class="selectable-list nav-list" id="siteNav">
+                        <li><button class="selectable nav-item" data-page="home">home</button></li>
+                        <li>
+                            <button class="collapsible">portfolio</button>
+                            <ul class="sub-list">
+                                <li><button class="selectable nav-item" data-page="portfolio-1">project 1</button></li>
+                                <li><button class="selectable nav-item" data-page="portfolio-2">project 2</button></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <button class="collapsible">blog</button>
+                            <ul class="sub-list">
+                                <li><button class="selectable nav-item" data-page="blog-1">post 1</button></li>
+                            </ul>
+                        </li>
+                        <li><button class="selectable nav-item" data-page="rss">rss feed</button></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-wrapper">
+                <div class="box-label">content</div>
+                <div class="content-box control-box" id="contentBox" style="flex:1 1 0;">
+                    <div id="contentBody" style="width:100%;height:60vh;overflow:auto;color:var(--fg-color);font-family:inherit;font-size:1rem;">
+                        <h2>welcome</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/main.js"></script>
