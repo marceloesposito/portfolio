@@ -63,6 +63,93 @@ input:focus, textarea:focus, select:focus {
     box-shadow: 0 0 0 3px rgba(88,194,255,0.12);
 }
 
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-track {
+    background: var(--bg-color);
+    height: 6px;
+    border: 1px solid var(--fg-color);
+    box-shadow: 2px 2px 0 0 var(--fg-color);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 16px;
+    width: 16px;
+    background: var(--fg-color);
+    border: 1px solid var(--bg-color);
+    cursor: pointer;
+    box-shadow: 2px 2px 0 0 var(--fg-color);
+}
+
+input[type="range"]::-moz-range-track {
+    background: var(--bg-color);
+    height: 6px;
+    border: 1px solid var(--fg-color);
+    box-shadow: 2px 2px 0 0 var(--fg-color);
+}
+
+input[type="range"]::-moz-range-thumb {
+    height: 16px;
+    width: 16px;
+    background: var(--fg-color);
+    border: 1px solid var(--bg-color);
+    cursor: pointer;
+    box-shadow: 2px 2px 0 0 var(--fg-color);
+}
+
+/* Search result highlighting */
+.match {
+    background-color: var(--fg-color);
+    color: var(--bg-color);
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+/* Search results layout */
+.search-result {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.result-source {
+    font-size: 0.75rem;
+    color: var(--fg-color);
+    flex-shrink: 0;
+    min-width: 80px;
+}
+
+.excerpt {
+    flex: 1;
+    color: var(--fg-color);
+}
+
+.search-divider {
+    border: 1px solid var(--fg-color);
+    margin: 12px 0;
+    border-width: 1px 0 0 0;
+}
+
+/* Content fade for scrolling indication */
+.content-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(to bottom, transparent 0%, var(--fg-color) 100%);
+    opacity: 0.5;
+    pointer-events: none;
+}
+
 /* Utilities */
 .container {
     max-width: 1200px;
@@ -230,6 +317,12 @@ button#swapColors:focus { outline: none; }
                 box-shadow var(--transition-duration) var(--transition-timing);
 }
 
+/* Top row styling to prevent font changes and wrapping */
+.top-row {
+    font-family: 'Times New Roman', Times, serif !important;
+    flex-wrap: nowrap;
+}
+
 /* Control box used to group related controls (color, font) */
 .control-box {
     display: inline-flex;
@@ -247,6 +340,11 @@ button#swapColors:focus { outline: none; }
 
 .control-wrapper, .nav-wrapper, .content-wrapper {
     display: inline-block;
+}
+
+.nav-box {
+    position: sticky;
+    top: 0;
 }
 
 .box-label {

@@ -30,7 +30,14 @@ document.addEventListener('DOMContentLoaded', function() {
       'rss feed': 'rss feed',
       'english': 'english',
       'italian': 'italian',
-      'type here to search': 'type here to search'
+      'type here to search': 'type here to search',
+      'music player': 'music player',
+      'now playing': 'now playing',
+      'skip': 'skip',
+      'pause': 'pause',
+      'play': 'play',
+      'mute': 'mute',
+      'volume': 'volume'
     },
     it: {
       'color controls': 'controlli colore',
@@ -54,12 +61,19 @@ document.addEventListener('DOMContentLoaded', function() {
       'rss feed': 'feed rss',
       'english': 'inglese',
       'italian': 'italiano',
-      'type here to search': 'digita qui per cercare'
+      'type here to search': 'digita qui per cercare',
+      'music player': 'lettore musicale',
+      'now playing': 'in riproduzione',
+      'skip': 'salta',
+      'pause': 'pausa',
+      'play': 'riproduci',
+      'mute': 'muto',
+      'volume': 'volume'
     }
   };
 
   function changeLanguage(lang) {
-    currentLanguage = lang;
+    currentLang = lang;
     localStorage.setItem('lang', lang);
     // Update toggle button states
     langButtons.forEach(b => b.classList.toggle('selected', b.dataset.lang === lang));
@@ -67,7 +81,11 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.dataset.i18n;
       if (translations[lang][key]) {
-        el.textContent = translations[lang][key];
+        if (el.tagName === 'INPUT' && el.type === 'search') {
+          el.placeholder = translations[lang][key];
+        } else {
+          el.textContent = translations[lang][key];
+        }
       }
     });
     // Reload currently selected nav item content in the new language
@@ -75,6 +93,26 @@ document.addEventListener('DOMContentLoaded', function() {
     if (selectedNavItem) {
       const file = selectedNavItem.dataset.file;
       if (file) loadAndRender(file);
+    }
+  }
+
+  async function loadAndRender(file) {
+    try {
+      const res = await fetch(file);
+      if (!res.ok) throw new Error('Failed to load ' + file);
+      const json = await res.json();
+      const title = json['title_' + currentLang] || json.title || 'Untitled';
+      const content = json['content_' + currentLang] || json.content || '<p>No content available.</p>';
+      const contentBody = document.getElementById('contentBody');
+      if (contentBody) {
+        contentBody.innerHTML = '<h2>' + title + '</h2>' + content;
+      }
+    } catch (e) {
+      console.error(e);
+      const contentBody = document.getElementById('contentBody');
+      if (contentBody) {
+        contentBody.innerHTML = '<p>Error loading content.</p>';
+      }
     }
   }
 
@@ -240,6 +278,20 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+  // ---------- Navigation item behavior ----------
+  const navItems = Array.from(document.querySelectorAll('.nav-item'));
+  navItems.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Deselect others
+      navItems.forEach(b => b.classList.remove('selected'));
+      // Select this one
+      btn.classList.add('selected');
+      // Load content
+      const file = btn.dataset.file;
+      if (file) loadAndRender(file);
+    });
+  });
+
   // ---------- Font toggle behavior ----------
   const fontButtons = Array.from(document.querySelectorAll('.font-toggle'));
   const fontMap = {
@@ -272,7 +324,21 @@ document.addEventListener('DOMContentLoaded', function() {
   // Default to English
   changeLanguage('en');
 
+  // Load initial content (home)
+  const homeItem = document.querySelector('.nav-item[data-file="data/home.json"]');
+  if (homeItem) {
+    homeItem.classList.add('selected');
+    loadAndRender('data/home.json');
+  }
+
   // ---------- Site search (scans JSON files listed in SEARCH_FILES) ----------
+  const SEARCH_FILES = [
+    'data/home.json',
+    'data/blog/post1.json',
+    'data/projects/project1.json',
+    'data/projects/project2.json',
+    'data/rss/feed.json'
+  ];
   const searchInput = document.getElementById('siteSearch');
   const searchBtnEl = document.getElementById('searchBtn');
 
@@ -311,6 +377,19 @@ document.addEventListener('DOMContentLoaded', function() {
     return text.replace(re, '<span class="match">$1</span>');
   }
 
+  function getNavPath(file) {
+    const navItem = document.querySelector(`.nav-item[data-file="${file}"]`);
+    if (!navItem) return file.replace(/^data\//, '');
+    let path = navItem.textContent.trim();
+    // Check if it has a parent collapsible
+    const li = navItem.closest('li');
+    if (li && li.parentElement && li.parentElement.previousElementSibling && li.parentElement.previousElementSibling.classList.contains('collapsible')) {
+      const parentText = li.parentElement.previousElementSibling.textContent.trim();
+      path = parentText + ' / ' + path;
+    }
+    return path;
+  }
+
   async function runSearch(query) {
     if (!contentBody) return;
     const q = (query || '').trim();
@@ -320,7 +399,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     const terms = q.split(/\s+/).filter(Boolean);
     const results = [];
-    const lang = currentLanguage;
+    const lang = currentLang;
     const contentKey = 'content_' + lang;
 
     // fetch each JSON file and search
@@ -356,18 +435,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // Render results
     const wrap = document.createElement('div');
     wrap.className = 'search-results';
-    results.forEach(r => {
+    results.forEach((r, index) => {
       const row = document.createElement('div');
       row.className = 'search-result';
+      const src = document.createElement('div');
+      src.className = 'result-source';
+      // Get navigation path
+      const navPath = getNavPath(r.source);
+      src.textContent = navPath;
       const e = document.createElement('div');
       e.className = 'excerpt';
       e.innerHTML = r.excerpt;
-      const src = document.createElement('div');
-      src.className = 'result-source';
-      src.textContent = r.source.replace(/^data\//, '');
-      row.appendChild(e);
       row.appendChild(src);
+      row.appendChild(e);
       wrap.appendChild(row);
+      // Add divider if not the last result
+      if (index < results.length - 1) {
+        const hr = document.createElement('hr');
+        hr.className = 'search-divider';
+        wrap.appendChild(hr);
+      }
     });
     contentBody.innerHTML = '';
     contentBody.appendChild(wrap);
